@@ -1,18 +1,21 @@
 #include <Arduino.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <Libtest.h>
 
-// put function declarations here:
-int myFunction(int, int);
+Libtest tlib1;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+
+  Serial.begin(9600);
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  int value = tlib1.testMethod1();
+  Serial.println(value);
+
+  delay(1000);
+
 }
