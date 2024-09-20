@@ -1,11 +1,11 @@
-#ifndef Libtest_h
-#define Libtest_h
+#ifndef SDcard_h
+#define SDcard_h
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
 
 
-int testMethod1();
+void SD_Init();
 
 
 #endif
