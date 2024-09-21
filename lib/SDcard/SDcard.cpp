@@ -4,7 +4,8 @@
 #include <SPI.h>
 #include "SD.h"
 //SPI V
-#define SD_CS_PIN    4
+#define SD_CS_PIN    5
+
 #define SD_MOSI      23
 #define SD_MISO      19
 #define SD_SCK       18
@@ -20,7 +21,7 @@
 */
 
 File myFile;
-File iniFile
+File iniFile;
 int fileNum;
 char myName[16];
 SPIClass SPISD(VSPI);
@@ -30,7 +31,7 @@ void SD_Init(){
 
     SPISD.begin(SD_SCK, SD_MISO, SD_MOSI);
     if (!SD.begin(SD_CS_PIN,SPISD)) {  //SD_CS_PIN this pin is just the dummy pin since the SD need the input 
-      Serial.println(F("failed!"));
+      Serial.println(F("SD failed!"));
       return;
     }
     else Serial.println(F("SD read!"));
@@ -43,19 +44,17 @@ void SD_Init(){
         s1 = "/LOGFILE";
         if (fileNum < 10) {
             s1 += "00";
-            s2 += "00";
         }else if(fileNum < 100) {
             s1 += "0";
-            s2 += "0";
         }
         s1 += fileNum;
         s1 += ".csv";
         s1.toCharArray(myName, 16);
         if (!SD.exists(myName)) {
           myFile = SD.open(myName, FILE_WRITE);
-          if (mainFile){
+          if (myFile){
             Serial.print("Writing to test.txt...");
-            mainFile.print("time,temperature,humidity,pressure,altitude\n");
+            myFile.print("time,temperature,humidity,pressure,altitude\n");
             Serial.println("done.");
           }else{
               Serial.println("error opening test.txt to write");
@@ -65,4 +64,13 @@ void SD_Init(){
           fileNum++;
         }
     }
+}
+void write_file(uint32_t data){
+  myFile = SD.open(myName, FILE_WRITE);
+  if(myName){
+    myFile.seek(myFile.size());
+    myFile.print(data);
+    myFile.println();
+    myFile.close();
+  }
 }

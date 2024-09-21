@@ -6,6 +6,7 @@
 
 
 void SD_Init();
+void SD_Write(uint32_t data);
 
 
 #endif

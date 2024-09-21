@@ -5,7 +5,8 @@
 #include <SPI.h>
 
 
-int testMethod1();
+void receivemessege();
+void sendmessege();
 
 
 #endif
